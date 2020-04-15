@@ -1,6 +1,10 @@
 # deezer-python
 A small set of classes to conveniently access data on Deezer
 
+
+See the demo folder for some examples of what you can do, for instance send around nice cover walls:
+![Release Overview](https://raw.githubusercontent.com/sharst/deezer_python/master/demo/release_overview.png)
+
 ```
 In [1]: from deezer_python.deezer import Deezer
 
@@ -30,4 +34,5 @@ Out[6]:
 In [7]: album.data.keys()
 Out[7]: dict_keys(['genre_id', 'record_type', 'id', 'artist', 'duration', 'label', 'release_date', 'upc', 'cover_xl', 'share', 'available', 'nb_tracks', 'genres', 'explicit_content_cover', 'fans', 'explicit_lyrics', 'link', 'cover', 'cover_big', 'tracks', 'cover_medium', 'explicit_content_lyrics', 'title', 'tracklist', 'cover_small', 'type', 'rating', 'contributors'])
 ```
+
 
