@@ -48,6 +48,15 @@ class Track(DeezerObj):
         else:
             return False
 
+    def safe_filename(self, name_format):
+        """ Returns a filename suggestion for this track that is safe to
+            use on NTFS drives (omits the use of special characters, like * """
+        filename = name_format.format(artist=self.artist.name,
+                                      title=self.title)
+        not_allowed = '*/\\:?"<>|'
+        filename = ''.join(["-" if f in not_allowed else f for f in filename])
+        return filename
+
     def __repr__(self):
         return 'Track({} - {})'.format(self.artist.name, self.title)
 
