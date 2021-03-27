@@ -1,3 +1,4 @@
+from collections import defaultdict
 import datetime
 import urllib.request
 
@@ -6,6 +7,8 @@ from .util import retried_get
 
 class DeezerObj(object):
     API_DIR = ''
+    DEFAULT_VALUE = defaultdict(lambda: None,
+                                {'tracks': []})
 
     def __init__(self, data):
         self.data = data
@@ -14,7 +17,8 @@ class DeezerObj(object):
         if attrib in self.__dict__:
             self.__dict__[attrib]
         else:
-            return self.data[attrib]
+            default = DeezerObj.DEFAULT_VALUE[attrib]
+            return self.data.get(attrib, default)
 
     def reload_all_fields(self):
         """ Refetch all information again from the api.
@@ -77,6 +81,10 @@ class Artist(DeezerObj):
                 url = resp['next']
             else:
                 break
+
+        for album in objects:
+            album.artist = self
+
         return objects
 
 
@@ -91,7 +99,7 @@ class Album(DeezerObj):
             self.tracks = [Track(track) for track in self.data['tracks']['data']]
 
     def __repr__(self):
-        return 'Album({} - {})'.format(self.artist.name, self.title)
+        return 'Album({} - {})'.format(getattr(self.artist, 'name', None), self.title)
 
 
 class Playlist(DeezerObj):

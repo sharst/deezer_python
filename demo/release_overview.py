@@ -22,6 +22,7 @@ import smtplib
 import time
 import os
 import yaml
+from string import Formatter
 
 from deezer_python.deezer import Deezer
 
@@ -102,7 +103,8 @@ def album_cover_art(albums, albums_per_row=4):
 
     # Format the cells into the table
     html = '<table cellspacing="0" cellpadding="0" style="width:100%">\n'
-    html += html_table.format(**cell_html_dict)
+    fmt = Formatter()
+    html += fmt.vformat(html_table, (), cell_html_dict)
     html += '</table>'
 
     return html
@@ -132,7 +134,6 @@ if __name__ == '__main__':
 
     while True:
         search_time = read_last_run_time()
-        search_time = search_time.replace(month=4)
         artists = deezer.get_favorite_artists()
         released_albums = get_released_albums(artists, search_time)
 
